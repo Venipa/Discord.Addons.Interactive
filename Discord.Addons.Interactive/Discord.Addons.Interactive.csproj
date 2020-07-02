@@ -15,11 +15,13 @@
     <VersionPrefix Condition=" '$(Version)' == '' ">0.0.0-dev</VersionPrefix>
 
     <TargetFramework>netstandard2.0</TargetFramework>
+
+    <AssemblyName>Discord.Addons.Interactive.S</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net.Commands" Version="2.2.0" />
-    <PackageReference Include="Discord.Net.WebSocket" Version="2.2.0" />
+    <PackageReference Include="Discord.Net.Commands" Version="2.3.0-dev-20200627.3" />
+    <PackageReference Include="Discord.Net.WebSocket" Version="2.3.0-dev-20200627.3" />
   </ItemGroup>
 
 </Project>
