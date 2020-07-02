@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Authors>foxbot</Authors>
+    <Authors>Shukashuu</Authors>
     
     <PackageId>Discord.Addons.Interactive</PackageId>
     <PackageLicenseUrl>https://opensource.org/licenses/isc</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/foxbot/Discord.Addons.Interactive</PackageProjectUrl>
-    <PackageTags>discord;discord.net</PackageTags>
+    <PackageProjectUrl>https://github.com/Shukashuu/Discord.Addons.Interactive</PackageProjectUrl>
+    <PackageTags>discord;discord.net;discord.addons;discord.addons.interactive;discord.net.nigthly</PackageTags>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>git://github.com/foxbot/Discord.Addons.Interactive</RepositoryUrl>
+    <RepositoryUrl>git://github.com/Shukashuu/Discord.Addons.Interactive</RepositoryUrl>
     <PackageIconUrl>https://github.com/foxbot/Discord.Addons.Interactive/raw/master/marketing/PackageLogo.png</PackageIconUrl>
 
     <VersionPrefix Condition=" '$(Version)' != '' ">$(Version)</VersionPrefix>
@@ -17,6 +17,20 @@
     <TargetFramework>netstandard2.0</TargetFramework>
 
     <AssemblyName>Discord.Addons.Interactive.S</AssemblyName>
+
+    <Version>1.0.0</Version>
+
+    <Company>Shukashuu</Company>
+
+    <Product>Discord.Addons.Interactive</Product>
+
+    <Description>A fork of https://github.com/foxbot/Discord.Addons.Interactive
+
+- Adds PassiveModding's InlineReaction https://github.com/PassiveModding/Discord.Addons.Interactive
+- Uses latest D.Net Commands and WebSocket
+- Styled parts of the code to my own</Description>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

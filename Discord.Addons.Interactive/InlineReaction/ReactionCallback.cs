@@ -1,12 +1,12 @@
 ﻿// The foundation of this code came from PassiveModding's fork of the original repo
 // https://github.com/PassiveModding/Discord.Addons.Interactive
 
+using Discord.Commands;
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord.Commands;
-using Discord.WebSocket;
 
 namespace Discord.Addons.Interactive.InlineReaction
 {
@@ -42,9 +42,9 @@ namespace Discord.Addons.Interactive.InlineReaction
 
         public ReactionCallbackData AddCallbacks(IEnumerable<(IEmote, Func<SocketCommandContext, SocketReaction, Task>)> callbacks)
         {
-            foreach (var callback in callbacks)
+            foreach (var (emote, item2) in callbacks)
             {
-                _items.Add(new ReactionCallbackItem(callback.Item1, callback.Item2));
+                _items.Add(new ReactionCallbackItem(emote, item2));
             }
 
             return this;

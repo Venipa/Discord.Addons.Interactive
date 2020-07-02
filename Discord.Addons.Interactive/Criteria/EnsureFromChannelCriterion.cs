@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Discord.Commands;
+﻿using Discord.Commands;
+using System.Threading.Tasks;
 
-namespace Discord.Addons.Interactive
+namespace Discord.Addons.Interactive.Criteria
 {
     public class EnsureFromChannelCriterion : ICriterion<IMessage>
     {
@@ -12,7 +12,7 @@ namespace Discord.Addons.Interactive
 
         public Task<bool> JudgeAsync(SocketCommandContext sourceContext, IMessage parameter)
         {
-            bool ok = _channelId == parameter.Channel.Id;
+            var ok = _channelId == parameter.Channel.Id;
             return Task.FromResult(ok);
         }
     }

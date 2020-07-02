@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Addons.Interactive;
 using Discord.Addons.Interactive.InlineReaction;
 using Discord.Commands;
+using System;
+using System.Threading.Tasks;
 
 namespace SampleApp.Modules
 {
@@ -45,7 +45,7 @@ namespace SampleApp.Modules
 
         // InlineReactionReplyAsync will send a message and adds reactions on it.
         // Once an user adds a reaction, the callback is fired.
-        // If callback was successfull next callback is not handled
+        // If callback was successful next callback is not handled
         // Unsuccessful callback is a reaction that did not have a callback.
         [Command("reaction")]
         public async Task Test_ReactionReply()

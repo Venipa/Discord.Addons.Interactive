@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Discord.Addons.Interactive.Criteria;
+using Discord.Addons.Interactive.InlineReaction;
+using Discord.Addons.Interactive.Paginator;
+using Discord.Addons.Interactive.Results;
+using Discord.Commands;
+using Discord.WebSocket;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Discord.Addons.Interactive.InlineReaction;
-using Discord.Commands;
-using Discord.WebSocket;
 
 namespace Discord.Addons.Interactive
 {
@@ -19,7 +22,8 @@ namespace Discord.Addons.Interactive
 
         public Task<SocketMessage> NextMessageAsync(ICriterion<SocketMessage> criterion, TimeSpan? timeout = null, CancellationToken token = default(CancellationToken))
             => Interactive.NextMessageAsync(Context, criterion, timeout, token);
-        public Task<SocketMessage> NextMessageAsync(bool fromSourceUser = true, bool inSourceChannel = true, TimeSpan? timeout = null, CancellationToken token = default(CancellationToken)) 
+
+        public Task<SocketMessage> NextMessageAsync(bool fromSourceUser = true, bool inSourceChannel = true, TimeSpan? timeout = null, CancellationToken token = default(CancellationToken))
             => Interactive.NextMessageAsync(Context, fromSourceUser, inSourceChannel, timeout, token);
 
         public Task<IUserMessage> ReplyAndDeleteAsync(string content, bool isTTS = false, Embed embed = null, TimeSpan? timeout = null, RequestOptions options = null)
@@ -36,6 +40,7 @@ namespace Discord.Addons.Interactive
             };
             return PagedReplyAsync(pager, fromSourceUser);
         }
+
         public Task<IUserMessage> PagedReplyAsync(PaginatedMessage pager, bool fromSourceUser = true)
         {
             var criterion = new Criteria<SocketReaction>();
@@ -43,6 +48,7 @@ namespace Discord.Addons.Interactive
                 criterion.AddCriterion(new EnsureReactionFromSourceUserCriterion());
             return PagedReplyAsync(pager, criterion);
         }
+
         public Task<IUserMessage> PagedReplyAsync(PaginatedMessage pager, ICriterion<SocketReaction> criterion)
             => Interactive.SendPaginatedMessageAsync(Context, pager, criterion);
 

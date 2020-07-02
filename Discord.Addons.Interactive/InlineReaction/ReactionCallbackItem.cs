@@ -1,10 +1,10 @@
 ﻿// The foundation of this code came from PassiveModding's fork of the original repo
 // https://github.com/PassiveModding/Discord.Addons.Interactive
 
-using System;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
+using System;
+using System.Threading.Tasks;
 
 namespace Discord.Addons.Interactive.InlineReaction
 {

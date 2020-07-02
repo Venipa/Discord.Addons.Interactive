@@ -1,14 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using Discord.Addons.Interactive.Criteria;
 using Discord.Commands;
 using Discord.WebSocket;
+using System.Threading.Tasks;
 
-namespace Discord.Addons.Interactive
+namespace Discord.Addons.Interactive.Paginator
 {
     internal class EnsureIsIntegerCriterion : ICriterion<SocketMessage>
     {
         public Task<bool> JudgeAsync(SocketCommandContext sourceContext, SocketMessage parameter)
         {
-            bool ok = int.TryParse(parameter.Content, out _);
+            var ok = int.TryParse(parameter.Content, out _);
             return Task.FromResult(ok);
         }
     }

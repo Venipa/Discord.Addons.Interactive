@@ -1,11 +1,13 @@
 ﻿// The foundation of this code came from PassiveModding's fork of the original repo
 // https://github.com/PassiveModding/Discord.Addons.Interactive
 
+using Discord.Addons.Interactive.Callbacks;
+using Discord.Addons.Interactive.Criteria;
+using Discord.Commands;
+using Discord.WebSocket;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord.Commands;
-using Discord.WebSocket;
 
 namespace Discord.Addons.Interactive.InlineReaction
 {
@@ -129,7 +131,7 @@ namespace Discord.Addons.Interactive.InlineReaction
             if (_data.SingleUsePerUser)
             {
                 // Ensure that we only allow users to react a single time.
-                if (_data.ReactorIDs.Contains(reaction.UserId)) 
+                if (_data.ReactorIDs.Contains(reaction.UserId))
                     return _data.ExpiresAfterUse;
 
                 await reactionCallbackItem.Callback(Context, reaction);
