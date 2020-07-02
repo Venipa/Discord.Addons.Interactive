@@ -16,7 +16,7 @@
 
     <TargetFramework>netstandard2.0</TargetFramework>
 
-    <AssemblyName>Discord.Addons.Interactive.S</AssemblyName>
+    <AssemblyName>Discord.Addons.Interactive</AssemblyName>
 
     <Version>1.0.1</Version>
 
