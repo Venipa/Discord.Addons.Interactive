@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Addons.Interactive;
+using Discord.Addons.Interactive.InlineReaction;
 using Discord.Commands;
 
 namespace SampleApp.Modules
@@ -39,6 +41,19 @@ namespace SampleApp.Modules
         {
             var pages = new[] { "Page 1", "Page 2", "Page 3", "aaaaaa", "Page 5" };
             await PagedReplyAsync(pages);
+        }
+
+        // InlineReactionReplyAsync will send a message and adds reactions on it.
+        // Once an user adds a reaction, the callback is fired.
+        // If callback was successfull next callback is not handled
+        // Unsuccessful callback is a reaction that did not have a callback.
+        [Command("reaction")]
+        public async Task Test_ReactionReply()
+        {
+            await InlineReactionReplyAsync(new ReactionCallbackData("text", null, false, false)
+                .WithCallback(new Emoji("👍"), (c, r) => c.Channel.SendMessageAsync($"{r.User.Value.Mention} replied with 👍"))
+                .WithCallback(new Emoji("👎"), (c, r) => c.Channel.SendMessageAsync($"{r.User.Value.Mention} replied with 👎"))
+            );
         }
     }
 }
