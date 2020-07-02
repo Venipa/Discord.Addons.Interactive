@@ -159,6 +159,7 @@ namespace Discord.Addons.Interactive
 
             if (!await callback.Criterion.JudgeAsync(callback.Context, reaction).ConfigureAwait(false))
                 return;
+
             switch (callback.RunMode)
             {
                 case RunMode.Async:
@@ -167,12 +168,6 @@ namespace Discord.Addons.Interactive
                         if (await callback.HandleCallbackAsync(reaction).ConfigureAwait(false))
                             RemoveReactionCallback(message.Id);
                     });
-                    break;
-
-                case RunMode.Default:
-                    break;
-
-                case RunMode.Sync:
                     break;
 
                 default:

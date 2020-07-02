@@ -47,9 +47,9 @@ namespace Discord.Addons.Interactive.InlineReaction
             ReactionCallbackData data,
             ICriterion<SocketReaction> criterion = null)
         {
-            this._interactive = interactive;
+            _interactive = interactive;
             Context = context;
-            this._data = data;
+            _data = data;
             Criterion = criterion ?? new EmptyCriterion<SocketReaction>();
             Timeout = data.Timeout ?? TimeSpan.FromSeconds(30);
         }

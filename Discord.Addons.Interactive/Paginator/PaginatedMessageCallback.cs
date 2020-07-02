@@ -12,7 +12,7 @@ namespace Discord.Addons.Interactive.Paginator
     public class PaginatedMessageCallback : IReactionCallback
     {
         public SocketCommandContext Context { get; }
-        public InteractiveService Interactive { get; private set; }
+        public InteractiveService Interactive { get; }
         public IUserMessage Message { get; private set; }
 
         public RunMode RunMode => RunMode.Sync;
@@ -36,6 +36,7 @@ namespace Discord.Addons.Interactive.Paginator
             Criterion = criterion ?? new EmptyCriterion<SocketReaction>();
             _pager = pager;
             _pages = _pager.Pages.Count();
+
             if (_pager.Pages is IEnumerable<EmbedFieldBuilder>)
                 _pages = ((_pager.Pages.Count() - 1) / Options.FieldsPerPage) + 1;
         }
