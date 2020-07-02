@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Discord.Addons.Interactive.InlineReaction;
 using Discord.Commands;
 using Discord.WebSocket;
 
@@ -92,6 +93,34 @@ namespace Discord.Addons.Interactive
                 .ContinueWith(_ => message.DeleteAsync().ConfigureAwait(false))
                 .ConfigureAwait(false);
             return message;
+        }
+
+        /// <summary>
+        /// Sends a message with reaction callbacks
+        /// </summary>
+        /// <param name="context">
+        /// The context.
+        /// </param>
+        /// <param name="reactionCallbackData">
+        /// The callbacks.
+        /// </param>
+        /// <param name="fromSourceUser">
+        /// The from source user.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        public async Task<IUserMessage> SendMessageWithReactionCallbacksAsync(SocketCommandContext context, ReactionCallbackData reactionCallbackData, bool fromSourceUser = true)
+        {
+            var criterion = new Criteria<SocketReaction>();
+            if (fromSourceUser)
+            {
+                criterion.AddCriterion(new EnsureReactionFromSourceUserCriterion());
+            }
+
+            var callback = new InlineReactionCallback(this, context, reactionCallbackData, criterion);
+            await callback.DisplayAsync().ConfigureAwait(false);
+            return callback.Message;
         }
 
         public async Task<IUserMessage> SendPaginatedMessageAsync(SocketCommandContext context, 

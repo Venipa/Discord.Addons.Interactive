@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Discord.Addons.Interactive.InlineReaction;
 using Discord.Commands;
 using Discord.WebSocket;
 
@@ -23,6 +24,9 @@ namespace Discord.Addons.Interactive
 
         public Task<IUserMessage> ReplyAndDeleteAsync(string content, bool isTTS = false, Embed embed = null, TimeSpan? timeout = null, RequestOptions options = null)
             => Interactive.ReplyAndDeleteAsync(Context, content, isTTS, embed, timeout, options);
+
+        public Task<IUserMessage> InlineReactionReplyAsync(ReactionCallbackData data, bool fromSourceUser = true)
+            => Interactive.SendMessageWithReactionCallbacksAsync(Context, data, fromSourceUser);
 
         public Task<IUserMessage> PagedReplyAsync(IEnumerable<object> pages, bool fromSourceUser = true)
         {
