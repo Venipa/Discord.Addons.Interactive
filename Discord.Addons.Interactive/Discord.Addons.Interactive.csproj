@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Authors>Shukashuu</Authors>
     
-    <PackageId>Discord.Addons.Interactive</PackageId>
+    <PackageId>Discord.Addons.ShukaInteractive</PackageId>
     <PackageLicenseUrl>https://opensource.org/licenses/isc</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/Shukashuu/Discord.Addons.Interactive</PackageProjectUrl>
     <PackageTags>discord;discord.net;discord.addons;discord.addons.interactive;discord.net.nigthly</PackageTags>
