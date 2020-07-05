@@ -44,7 +44,19 @@ namespace SampleApp
             await Task.Delay(-1);
         }
 
-        public async Task HandleCommandAsync(SocketMessage m)
+        private static IServiceProvider ConfigureServices()
+        {
+            var client = new DiscordSocketClient();
+            var commands = new CommandService();
+
+            return new ServiceCollection()
+                .AddSingleton(client)
+                .AddSingleton(commands)
+                .AddSingleton<InteractiveService>()
+                .BuildServiceProvider();
+        }
+
+        private static async Task HandleCommandAsync(SocketMessage socketMessage)
         {
             if (!(socketMessage is SocketUserMessage message)
                 || !(message.Author is IGuildUser guildUser)
