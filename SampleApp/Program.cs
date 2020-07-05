@@ -18,9 +18,10 @@ namespace SampleApp
         
         public static async Task Main(string[] args)
         {
-            var token = File.ReadAllText("token.ignore");
-
-            _client = new DiscordSocketClient();
+            _services = ConfigureServices();
+            
+            _client = _services.GetRequiredService<DiscordSocketClient>();
+            _commands = _services.GetRequiredService<CommandService>();
 
             _client.Log += log =>
             {
