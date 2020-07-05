@@ -46,14 +46,19 @@ namespace SampleApp
 
         public async Task HandleCommandAsync(SocketMessage m)
         {
-            if (!(m is SocketUserMessage msg)) return;
-            if (msg.Author.IsBot) return;
-
+            if (!(socketMessage is SocketUserMessage message)
+                || !(message.Author is IGuildUser guildUser)
+                || guildUser.IsBot)
+            {
+                return; 
+            }
+            
             var argPos = 0;
-            if (!(msg.HasStringPrefix("i~>", ref argPos))) return;
-
-            var context = new SocketCommandContext(_client, msg);
-            await _commands.ExecuteAsync(context, argPos, _services);
+            if (message.HasStringPrefix("!!", ref argPos))
+            {
+                var context = new SocketCommandContext(_client, message);
+                await _commands.ExecuteAsync(context, argPos, _services);
+            }
         }
     }
 }
