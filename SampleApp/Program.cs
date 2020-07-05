@@ -12,14 +12,11 @@ namespace SampleApp
 {
     public class Program
     {
-        private static void Main(string[] args)
-            => new Program().MainAsync().GetAwaiter().GetResult();
-
-        private DiscordSocketClient _client;
-        private CommandService _commands;
-        private IServiceProvider _services;
-
-        public async Task MainAsync()
+        private static DiscordSocketClient _client;
+        private static CommandService _commands;
+        private static IServiceProvider _services;
+        
+        public static async Task Main(string[] args)
         {
             var token = File.ReadAllText("token.ignore");
 
