@@ -1,4 +1,4 @@
-using Discord;
+﻿using Discord;
 using Discord.Addons.Interactive;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -28,6 +28,8 @@ namespace SampleApp
                 return Task.CompletedTask;
             };
 
+            var token = File.ReadAllText("token.ignore");
+            
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
             
