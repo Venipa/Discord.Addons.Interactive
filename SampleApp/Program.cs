@@ -30,15 +30,9 @@ namespace SampleApp
 
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
-
-            _services = new ServiceCollection()
-                .AddSingleton(_client)
-                .AddSingleton<InteractiveService>()
-                .BuildServiceProvider();
-
-            _commands = new CommandService();
-            await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
-
+            
+            await _commands.AddModulesAsync(typeof(Program).Assembly, _services);
+            
             _client.MessageReceived += HandleCommandAsync;
 
             await Task.Delay(-1);
