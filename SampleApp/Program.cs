@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Addons.Interactive;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SampleApp
 {
-    internal class Program
+    public class Program
     {
         private static void Main(string[] args)
             => new Program().MainAsync().GetAwaiter().GetResult();
