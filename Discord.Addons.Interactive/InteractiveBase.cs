@@ -15,8 +15,7 @@ namespace Discord.Addons.Interactive
     {
     }
 
-    public abstract class InteractiveBase<T> : ModuleBase<T>
-        where T : SocketCommandContext
+    public abstract class InteractiveBase<T> : ModuleBase<T> where T : SocketCommandContext
     {
         public InteractiveService Interactive { get; set; }
 
@@ -31,26 +30,17 @@ namespace Discord.Addons.Interactive
 
         public Task<IUserMessage> InlineReactionReplyAsync(ReactionCallbackData data, bool fromSourceUser = true)
             => Interactive.SendMessageWithReactionCallbacksAsync(Context, data, fromSourceUser);
-
-        public Task<IUserMessage> PagedReplyAsync(IEnumerable<object> pages, bool fromSourceUser = true)
-        {
-            var pager = new PaginatedMessage
-            {
-                Pages = pages
-            };
-            return PagedReplyAsync(pager, fromSourceUser);
-        }
-
-        public Task<IUserMessage> PagedReplyAsync(PaginatedMessage pager, bool fromSourceUser = true)
+        
+        public Task<IUserMessage> PagedReplyAsync(PaginatedMessage pager, ReactionList reactions, bool fromSourceUser = true)
         {
             var criterion = new Criteria<SocketReaction>();
             if (fromSourceUser)
                 criterion.AddCriterion(new EnsureReactionFromSourceUserCriterion());
-            return PagedReplyAsync(pager, criterion);
+            return PagedReplyAsync(pager, reactions, criterion);
         }
 
-        public Task<IUserMessage> PagedReplyAsync(PaginatedMessage pager, ICriterion<SocketReaction> criterion)
-            => Interactive.SendPaginatedMessageAsync(Context, pager, criterion);
+        public Task<IUserMessage> PagedReplyAsync(PaginatedMessage pager, ReactionList reactions, ICriterion<SocketReaction> criterion)
+            => Interactive.SendPaginatedMessageAsync(Context, pager, reactions, criterion);
 
         public RuntimeResult Ok(string reason = null) => new OkResult(reason);
     }
