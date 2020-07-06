@@ -18,7 +18,7 @@
 
     <AssemblyName>Discord.Addons.Interactive</AssemblyName>
 
-    <Version>1.0.3</Version>
+    <Version>1.1.0</Version>
 
     <Company>Shukashuu</Company>
 
@@ -27,7 +27,7 @@
     <Description>A fork of https://github.com/foxbot/Discord.Addons.Interactive
 
 - Adds PassiveModding's InlineReaction https://github.com/PassiveModding/Discord.Addons.Interactive
-- Uses latest nightly (pre-release) of D.Net Commands and WebSocket
+- Uses nightly (pre-release) of Discord.Net Commands and WebSocket
 - Styled parts of the code to my own</Description>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
