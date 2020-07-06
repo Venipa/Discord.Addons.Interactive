@@ -95,6 +95,7 @@ namespace Discord.Addons.Interactive.InlineReaction
             {
                 foreach (var item in _data.Callbacks)
                 {
+                    if (item.AddReaction == false) continue;
                     await message.AddReactionAsync(item.Reaction);
                 }
             });

@@ -24,6 +24,11 @@ namespace Discord.Addons.Interactive.InlineReaction
         public Func<SocketCommandContext, SocketReaction, Task> Callback { get; }
 
         /// <summary>
+        /// Adds the reaction.
+        /// </summary>
+        public bool AddReaction { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReactionCallbackItem"/> class.
         /// </summary>
         /// <param name="reaction">
@@ -32,10 +37,14 @@ namespace Discord.Addons.Interactive.InlineReaction
         /// <param name="callback">
         /// The callback.
         /// </param>
-        public ReactionCallbackItem(IEmote reaction, Func<SocketCommandContext, SocketReaction, Task> callback)
+        /// <param name="addReaction">
+        /// If to add reaction.
+        /// </param>
+        public ReactionCallbackItem(IEmote reaction, Func<SocketCommandContext, SocketReaction, Task> callback, bool addReaction = true)
         {
             Reaction = reaction;
             Callback = callback;
+            AddReaction = addReaction;
         }
     }
 }

@@ -47,12 +47,14 @@ namespace SampleApp.Modules
         // Once an user adds a reaction, the callback is fired.
         // If callback was successful next callback is not handled
         // Unsuccessful callback is a reaction that did not have a callback.
+        // Set addReaction to false if you do not want the reaction to be added by the bot.
         [Command("reaction")]
         public async Task Test_ReactionReply()
         {
             await InlineReactionReplyAsync(new ReactionCallbackData("text", null, false, false)
                 .WithCallback(new Emoji("👍"), (c, r) => c.Channel.SendMessageAsync($"{r.User.Value.Mention} replied with 👍"))
                 .WithCallback(new Emoji("👎"), (c, r) => c.Channel.SendMessageAsync($"{r.User.Value.Mention} replied with 👎"))
+                .WithCallback(new Emoji("👌"), (c, r) => c.Channel.SendMessageAsync($"{r.User.Value.Mention} replied with 👌"), false)
             );
         }
     }

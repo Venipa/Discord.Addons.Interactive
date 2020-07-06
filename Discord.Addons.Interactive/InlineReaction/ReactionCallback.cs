@@ -62,9 +62,9 @@ namespace Discord.Addons.Interactive.InlineReaction
             return this;
         }
 
-        public ReactionCallbackData WithCallback(IEmote reaction, Func<SocketCommandContext, SocketReaction, Task> callback)
+        public ReactionCallbackData WithCallback(IEmote reaction, Func<SocketCommandContext, SocketReaction, Task> callback, bool addReaction = true)
         {
-            var item = new ReactionCallbackItem(reaction, callback);
+            var item = new ReactionCallbackItem(reaction, callback, addReaction);
             _items.Add(item);
             return this;
         }
