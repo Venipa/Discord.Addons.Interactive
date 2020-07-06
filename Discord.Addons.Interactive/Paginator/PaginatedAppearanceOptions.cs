@@ -1,18 +1,24 @@
-﻿using System;
+using System;
 
 namespace Discord.Addons.Interactive.Paginator
 {
     public class PaginatedAppearanceOptions
     {
-        public static PaginatedAppearanceOptions Default = new PaginatedAppearanceOptions();
+        public IEmote First { get; set; } = new Emoji("⏮");
+        
+        public IEmote Back { get; set; } = new Emoji("◀");
+        
+        public IEmote Next { get; set; } = new Emoji("▶");
+        
+        public IEmote Last { get; set; } = new Emoji("⏭");
+        
+        public IEmote Stop { get; set; } = new Emoji("⏹");
+        
+        public IEmote Jump { get; set; } = new Emoji("🔢");
+        
+        public IEmote Info { get; set; } = new Emoji("ℹ");
 
-        public IEmote First = new Emoji("⏮");
-        public IEmote Back = new Emoji("◀");
-        public IEmote Next = new Emoji("▶");
-        public IEmote Last = new Emoji("⏭");
-        public IEmote Stop = new Emoji("⏹");
-        public IEmote Jump = new Emoji("🔢");
-        public IEmote Info = new Emoji("ℹ");
+        public string FooterFormat { get; set; } = "Page {0}/{1}";
 
         public string FooterFormat = "Page {0}/{1}";
         public string InformationText = "This is a paginator. React with the respective icons to change page.";
