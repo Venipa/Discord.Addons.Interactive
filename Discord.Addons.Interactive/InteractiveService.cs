@@ -1,4 +1,4 @@
-using Discord.Addons.Interactive.Callbacks;
+﻿using Discord.Addons.Interactive.Callbacks;
 using Discord.Addons.Interactive.Criteria;
 using Discord.Addons.Interactive.InlineReaction;
 using Discord.Addons.Interactive.Paginator;
@@ -83,8 +83,7 @@ namespace Discord.Addons.Interactive
 
             if (task == trigger)
                 return await trigger.ConfigureAwait(false);
-            else
-                return null;
+            return null;
         }
 
         public async Task<IUserMessage> ReplyAndDeleteAsync(SocketCommandContext context,
