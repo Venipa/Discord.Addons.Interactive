@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Discord.Addons.Interactive.Paginator
 {
@@ -20,16 +20,21 @@ namespace Discord.Addons.Interactive.Paginator
 
         public string FooterFormat { get; set; } = "Page {0}/{1}";
 
-        public string FooterFormat = "Page {0}/{1}";
-        public string InformationText = "This is a paginator. React with the respective icons to change page.";
+        public string InformationTitle { get; set; } = "Paginator Information";
+        
+        public string InformationText { get; set; } = "This funny-looking embed is called a **Paginator**. It's just like a book. You can flip through the pages using the arrows, enter the number of the page you want to navigate to, or close the it entirely.";
 
-        public JumpDisplayOptions JumpDisplayOptions = JumpDisplayOptions.WithManageMessages;
-        public bool DisplayInformationIcon = true;
+        public Color InformationColor { get; set; } = new Color(252, 166, 205);
+        
+        public JumpDisplayOptions JumpDisplayOptions { get; set; } = JumpDisplayOptions.WithManageMessages;
+        
+        public bool DisplayInformationIcon { get; set; } = true;
+        
+        public TimeSpan? Timeout { get; set; } = null;
+        
+        public TimeSpan InfoTimeout { get; set; } = TimeSpan.FromSeconds(10);
 
-        public TimeSpan? Timeout = null;
-        public TimeSpan InfoTimeout = TimeSpan.FromSeconds(30);
-
-        public int FieldsPerPage = 6;
+        public static PaginatedAppearanceOptions Default { get; set; } = new PaginatedAppearanceOptions();
     }
 
     public enum JumpDisplayOptions
