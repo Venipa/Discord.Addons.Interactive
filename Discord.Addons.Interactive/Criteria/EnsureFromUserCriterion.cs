@@ -17,7 +17,7 @@ namespace Discord.Addons.Interactive.Criteria
 
         public Task<bool> JudgeAsync(SocketCommandContext sourceContext, IMessage parameter)
         {
-            bool ok = _id == parameter.Author.Id;
+            var ok = _id == parameter.Author.Id;
             return Task.FromResult(ok);
         }
     }
