@@ -1,4 +1,4 @@
-﻿using Discord.Addons.Interactive.Callbacks;
+using Discord.Addons.Interactive.Callbacks;
 using Discord.Addons.Interactive.Criteria;
 using Discord.Addons.Interactive.InlineReaction;
 using Discord.Addons.Interactive.Paginator;
@@ -18,7 +18,7 @@ namespace Discord.Addons.Interactive
         private readonly Dictionary<ulong, IReactionCallback> _callbacks;
         private readonly TimeSpan _defaultTimeout;
 
-        // helpers to allow DI containers to resolve without a custom factory
+        // Helpers to allow DI containers to resolve without a custom factory
         public InteractiveService(DiscordSocketClient discord, InteractiveServiceConfig config = null)
             : this((BaseSocketClient)discord, config) { }
 
@@ -43,10 +43,13 @@ namespace Discord.Addons.Interactive
             CancellationToken token = default)
         {
             var criterion = new Criteria<SocketMessage>();
+            
             if (fromSourceUser)
                 criterion.AddCriterion(new EnsureSourceUserCriterion());
+            
             if (inSourceChannel)
                 criterion.AddCriterion(new EnsureSourceChannelCriterion());
+            
             return NextMessageAsync(context, criterion, timeout, token);
         }
 
@@ -97,23 +100,10 @@ namespace Discord.Addons.Interactive
                 .ConfigureAwait(false);
             return message;
         }
-
-        /// <summary>
-        /// Sends a message with reaction callbacks
-        /// </summary>
-        /// <param name="context">
-        /// The context.
-        /// </param>
-        /// <param name="reactionCallbackData">
-        /// The callbacks.
-        /// </param>
-        /// <param name="fromSourceUser">
-        /// The from source user.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
-        public async Task<IUserMessage> SendMessageWithReactionCallbacksAsync(SocketCommandContext context, ReactionCallbackData reactionCallbackData, bool fromSourceUser = true)
+        
+        public async Task<IUserMessage> SendMessageWithReactionCallbacksAsync(SocketCommandContext context, 
+            ReactionCallbackData reactionCallbackData, 
+            bool fromSourceUser = true)
         {
             var criterion = new Criteria<SocketReaction>();
             if (fromSourceUser)
@@ -128,10 +118,11 @@ namespace Discord.Addons.Interactive
 
         public async Task<IUserMessage> SendPaginatedMessageAsync(SocketCommandContext context,
             PaginatedMessage pager,
+            ReactionList reactions,
             ICriterion<SocketReaction> criterion = null)
         {
             var callback = new PaginatedMessageCallback(this, context, pager, criterion);
-            await callback.DisplayAsync().ConfigureAwait(false);
+            await callback.DisplayAsync(reactions).ConfigureAwait(false);
             return callback.Message;
         }
 
