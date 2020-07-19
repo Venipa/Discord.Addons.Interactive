@@ -5,7 +5,7 @@ namespace Discord.Addons.Interactive.Paginator
 {
     public class PaginatedMessage
     {
-        public IEnumerable<EmbedPage> Pages { get; set; } = new List<EmbedPage>();
+        public IEnumerable<Page> Pages { get; set; } = new List<Page>();
 
         public string Content { get; set; } = string.Empty;
         
@@ -29,8 +29,12 @@ namespace Discord.Addons.Interactive.Paginator
         public DateTimeOffset? TimeStamp { get; set; } = null;
         public PaginatedAppearanceOptions Options { get; set; } = PaginatedAppearanceOptions.Default;
     }
-
-    public class EmbedPage
+    public abstract class Page { }
+    public class MessagePage : Page
+    {
+        public string Content { get; set; }
+    }
+    public class EmbedPage : Page
     {
         public string AlternateAuthorTitle { get; set; }
         

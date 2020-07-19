@@ -5,6 +5,7 @@ using Discord.Commands;
 using Discord.Rest;
 using Discord.WebSocket;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -48,7 +49,17 @@ namespace Discord.Addons.Interactive
         public async Task DisplayAsync(ReactionList reactionList)
         {
             var embed = BuildEmbed();
-            var message = await Context.Channel.SendMessageAsync(_pager.Content, embed: embed).ConfigureAwait(false);
+            RestUserMessage message;
+            if (embed is string)
+            {
+                message = await Context.Channel.SendMessageAsync(embed as string).ConfigureAwait(false);
+            } else if (embed is Embed)
+            {
+                message = await Context.Channel.SendMessageAsync(_pager.Content, embed: embed as Embed).ConfigureAwait(false);
+            } else
+            {
+                return;
+            }
 
             Message = message;
             Interactive.AddReactionCallback(message, this);
@@ -166,51 +177,76 @@ namespace Discord.Addons.Interactive
             return false;
         }
         
-        protected Embed BuildEmbed()
+        protected object BuildEmbed()
         {
-            var current = _pager.Pages.ElementAt(_currentPage - 1);
-            var builder = new EmbedBuilder
+            var currentPage = _pager.Pages.ElementAt(_currentPage - 1);
+            if (currentPage is EmbedPage)
             {
-                Title = current.Title ?? _pager.Title,
-                Url = current.Url ?? _pager.Url,
-                Description = current.Description ?? _pager.Description,
-                ImageUrl = current.ImageUrl ?? _pager.ImageUrl,
-                Color = current.Color ?? _pager.Color,
-                Fields = current.Fields ?? _pager.Fields,
-                Footer = current.FooterOverride ?? _pager.FooterOverride ?? new EmbedFooterBuilder
+                var current = currentPage as EmbedPage;
+                var builder = new EmbedBuilder
                 {
-                    Text = string.Format(Options.FooterFormat, _currentPage, _pages)
-                },
-                ThumbnailUrl = current.ThumbnailUrl ?? _pager.ThumbnailUrl,
-                Timestamp = current.TimeStamp ?? _pager.TimeStamp
-            };
-            
-            if (current.DisplayTotalFieldsCount)
-            {
-                builder
-                    .WithAuthor(author =>
+                    Title = current.Title ?? _pager.Title,
+                    Url = current.Url ?? _pager.Url,
+                    Description = current.Description ?? _pager.Description,
+                    ImageUrl = current.ImageUrl ?? _pager.ImageUrl,
+                    Color = current.Color ?? _pager.Color,
+                    Fields = current.Fields ?? _pager.Fields,
+                    Footer = current.FooterOverride ?? _pager.FooterOverride ?? new EmbedFooterBuilder
                     {
-                        author.Name = $"{current.AlternateAuthorTitle}\nPage {_currentPage}/{_pages} ({Math.Round(_pager.Pages.Sum(x => x.Fields.Count) * current.TotalFieldsCountConstant)} {current.TotalFieldsMessage})";
-                        author.IconUrl = current.AlteranteAuthorIcon;
-                    });
-            }
-            else
-            {
-                builder
-                    .WithAuthor(author =>
-                    {
-                        author.Name = $"{current.AlternateAuthorTitle}\nPage {_currentPage}/{_pages}";
-                        author.IconUrl = current.AlteranteAuthorIcon;
-                    });
-            }
+                        Text = string.Format(Options.FooterFormat, _currentPage, _pages)
+                    },
+                    ThumbnailUrl = current.ThumbnailUrl ?? _pager.ThumbnailUrl,
+                    Timestamp = current.TimeStamp ?? _pager.TimeStamp
+                };
 
-            return builder.Build();
+                if (current.DisplayTotalFieldsCount)
+                {
+                    builder
+                        .WithAuthor(author =>
+                        {
+                            author.Name = $"{current.AlternateAuthorTitle}\nPage {_currentPage}/{_pages} ({Math.Round((_pager.Pages as List<EmbedPage>).Sum(x => x.Fields.Count) * current.TotalFieldsCountConstant)} {current.TotalFieldsMessage})";
+                            author.IconUrl = current.AlteranteAuthorIcon;
+                        });
+                }
+                else
+                {
+                    builder
+                        .WithAuthor(author =>
+                        {
+                            author.Name = $"{current.AlternateAuthorTitle}\nPage {_currentPage}/{_pages}";
+                            author.IconUrl = current.AlteranteAuthorIcon;
+                        });
+                }
+                return builder.Build();
+            } else if(currentPage is MessagePage)
+            {
+                var current = currentPage as MessagePage;
+                return $"**Page {_currentPage}/{ _pages}**\n{current.Content}";
+            }
+            return null;
         }
         
         private Task RenderAsync()
         {
             var embed = BuildEmbed();
-            return Message.ModifyAsync(m => m.Embed = embed);
+
+            if (embed is string)
+            {
+                return Message.ModifyAsync(m =>
+                {
+                    m.Embed = null;
+                    m.Content = embed as string;
+                });
+            }
+            else if (embed is Embed)
+            {
+                return Message.ModifyAsync(m =>
+                {
+                    m.Content = "";
+                    m.Embed = embed as Embed;
+                });
+            }
+            return null;
         }
     }
 }
