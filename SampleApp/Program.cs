@@ -5,25 +5,22 @@ using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace SampleApp
 {
-    internal class Program
+    public class Program
     {
-        private static void Main(string[] args)
-            => new Program().MainAsync().GetAwaiter().GetResult();
-
-        private DiscordSocketClient _client;
-        private CommandService _commands;
-        private IServiceProvider _services;
-
-        public async Task MainAsync()
+        private static DiscordSocketClient _client;
+        private static CommandService _commands;
+        private static IServiceProvider _services;
+        
+        public static async Task Main(string[] args)
         {
-            var token = File.ReadAllText("token.ignore");
-
-            _client = new DiscordSocketClient();
+            _services = ConfigureServices();
+            
+            _client = _services.GetRequiredService<DiscordSocketClient>();
+            _commands = _services.GetRequiredService<CommandService>();
 
             _client.Log += log =>
             {
@@ -31,32 +28,45 @@ namespace SampleApp
                 return Task.CompletedTask;
             };
 
+            var token = File.ReadAllText("token.ignore");
+            
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
-
-            _services = new ServiceCollection()
-                .AddSingleton(_client)
-                .AddSingleton<InteractiveService>()
-                .BuildServiceProvider();
-
-            _commands = new CommandService();
-            await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
-
+            
+            await _commands.AddModulesAsync(typeof(Program).Assembly, _services);
+            
             _client.MessageReceived += HandleCommandAsync;
 
             await Task.Delay(-1);
         }
 
-        public async Task HandleCommandAsync(SocketMessage m)
+        private static IServiceProvider ConfigureServices()
         {
-            if (!(m is SocketUserMessage msg)) return;
-            if (msg.Author.IsBot) return;
+            var client = new DiscordSocketClient();
+            var commands = new CommandService();
 
+            return new ServiceCollection()
+                .AddSingleton(client)
+                .AddSingleton(commands)
+                .AddSingleton<InteractiveService>()
+                .BuildServiceProvider();
+        }
+
+        private static async Task HandleCommandAsync(SocketMessage socketMessage)
+        {
+            if (!(socketMessage is SocketUserMessage message)
+                || !(message.Author is IGuildUser guildUser)
+                || guildUser.IsBot)
+            {
+                return; 
+            }
+            
             var argPos = 0;
-            if (!(msg.HasStringPrefix("i~>", ref argPos))) return;
-
-            var context = new SocketCommandContext(_client, msg);
-            await _commands.ExecuteAsync(context, argPos, _services);
+            if (message.HasStringPrefix("!!", ref argPos))
+            {
+                var context = new SocketCommandContext(_client, message);
+                await _commands.ExecuteAsync(context, argPos, _services);
+            }
         }
     }
 }
